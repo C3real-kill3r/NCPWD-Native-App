@@ -8,6 +8,8 @@ import {name as appName} from './app.json';
 import Splash from './src/components/SplashScreen/splashScreen';
 import React, {Component} from 'react';
 import Route from './src/Route';
+import store from './src/config/store';
+import { Provider } from 'react-redux';
 
 class Main extends Component {
   constructor(props) {
@@ -19,7 +21,16 @@ class Main extends Component {
   }
   render() {
     const {currentScreen} = this.state;
-    let mainScreen = currentScreen === 'Splash' ? <Splash /> : <Route />;
+    let mainScreen =
+      currentScreen === 'Splash' ? (
+        <Provider store={store}>
+          <Splash />
+        </Provider>
+      ) : (
+        <Provider store={store}>
+          <Route />
+        </Provider>
+      );
     return mainScreen;
   }
 }

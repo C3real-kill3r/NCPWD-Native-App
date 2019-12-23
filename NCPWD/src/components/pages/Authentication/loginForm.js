@@ -11,9 +11,59 @@ import {Field, reduxForm} from 'redux-form';
 
 import InputText from '../../InputText';
 
+const styles = StyleSheet.create({
+  container: {
+    padding: 30,
+  },
+  buttonContainer: {
+    backgroundColor: '#44bd32',
+    paddingVertical: 15,
+    height: 50,
+    marginTop: 15,
+    borderRadius: 3,
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: '#ffff',
+    fontFamily: 'sans-serif-thin',
+    fontWeight: '700',
+  },
+  signupText: {
+    color: 'rgba(255, 255, 255, 0.8)',
+    textAlign: 'center',
+    justifyContent: 'flex-end',
+  },
+  forgotPasswordText: {
+    color: 'rgba(255, 255, 255, 0.8)',
+    textAlign: 'right',
+    fontFamily: 'sans-serif-light',
+    fontWeight: '600',
+  },
+  textContainer: {
+    paddingVertical: 15,
+    alignContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  signupLink: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    textAlign: 'center',
+    paddingHorizontal: 5,
+  },
+  errorText: {
+    color: 'rgb(255, 10, 10)',
+    fontFamily: 'sans-serif-light',
+    fontWeight: '800',
+    paddingBottom: 8,
+  },
+});
 class loginForm extends Component {
   signup() {
     Actions.signup();
+  }
+
+  restPass() {
+    Actions.resetPassword();
   }
 
   renderTextInput = field => {
@@ -42,7 +92,12 @@ class loginForm extends Component {
     );
   };
 
+  onSubmit = values =>{
+    console.log(values);
+  };
+
   render() {
+    const {handleSubmit} = this.props;
     return (
       <View style={styles.container}>
         <Field
@@ -56,8 +111,11 @@ class loginForm extends Component {
           secureTextEntry={true}
           component={this.renderTextInput}
         />
-        <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity onPress={this.restPass}>
+          <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonContainer}
+        onPress={handleSubmit(this.onSubmit)}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <View style={styles.textContainer}>
@@ -73,45 +131,18 @@ class loginForm extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 30,
-  },
-  buttonContainer: {
-    backgroundColor: '#44bd32',
-    paddingVertical: 15,
-    height: 50,
-    marginTop: 15,
-    borderRadius: 3,
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#ffff',
-    fontFamily: 'sans-serif-thin',
-    fontWeight: '700',
-  },
-  signupText: {
-    color: 'rgba(255, 255, 255, 0.8)',
-    textAlign: 'center',
-    justifyContent: 'flex-end',
-  },
-  forgotPasswordText: {
-    color: 'rgba(255, 255, 255, 0.8)',
-    textAlign: 'right',
-  },
-  textContainer: {
-    paddingVertical: 15,
-    alignContent: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  signupLink: {
-    color: 'rgba(255, 255, 255, 0.5)',
-    textAlign: 'center',
-    paddingHorizontal: 5,
-  },
-});
+const validate = values => {
+  const errors = {};
+  if (!values.email) {
+    errors.email = 'Email is required';
+  }
+  if (!values.password) {
+    errors.password = 'Password is required';
+  }
+  return errors;
+};
 
 export default reduxForm({
   form: 'login',
+  validate,
 })(loginForm);

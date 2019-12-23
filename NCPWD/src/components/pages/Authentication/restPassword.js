@@ -3,30 +3,27 @@ import {
   Text,
   StyleSheet,
   View,
-  Image,
-  KeyboardAvoidingView,
   SafeAreaView,
+  KeyboardAvoidingView,
   StatusBar,
   TouchableWithoutFeedback,
+  Image,
   Keyboard,
   TouchableOpacity,
 } from 'react-native';
-
+import InputText from '../../InputText';
 import {Actions} from 'react-native-router-flux';
 import {Field, reduxForm} from 'redux-form';
-import InputText from '../../InputText';
-
-
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: 'rgba(12, 16, 38, 0.8)',
     justifyContent: 'center',
+    alignContent: 'center',
   },
   logoContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
   },
   logo: {
     height: 160,
@@ -38,13 +35,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     color: '#ffffff',
-    paddingTop: 10,
-    paddingBottom: 20,
+    paddingVertical: 10,
   },
-  signupForm: {
+  resetContainer: {
     paddingHorizontal: 30,
   },
   buttonContainer: {
+    flexGrow: 1,
     backgroundColor: '#44bd32',
     paddingVertical: 15,
     height: 50,
@@ -56,38 +53,9 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif-thin',
     fontWeight: '700',
   },
-  loginText: {
-    color: '#ffff',
-    fontFamily: 'sans-serif-light',
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  loginLink: {
-    color: 'rgba(255, 255, 255, 0.5)',
-    fontFamily: 'sans-serif-light',
-    fontWeight: '700',
-    textAlign: 'center',
-    paddingHorizontal: 5,
-  },
-  loginTextContainer: {
-    paddingTop: 10,
-    alignContent: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  errorText: {
-    color: 'rgb(255, 10, 10)',
-    fontFamily: 'sans-serif-light',
-    fontWeight: '800',
-    paddingBottom: 8,
-  },
 });
 
-class signup extends Component {
-  login() {
-    Actions.pop();
-  }
-
+class restPassword extends Component {
   renderTextInput = field => {
     const {
       meta: {touched, error},
@@ -114,12 +82,7 @@ class signup extends Component {
     );
   };
 
-  onSubmit = values => {
-    console.log(values);
-  };
-
   render() {
-    const {handleSubmit} = this.props;
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar
@@ -136,42 +99,20 @@ class signup extends Component {
                   source={require('../../../images/logo2.png')}
                   style={styles.logo}
                 />
-                <Text style={styles.title}> Signup Information</Text>
+                <Text style={styles.title}>
+                  Enter email to receive reset link
+                </Text>
               </View>
-              <View style={styles.signupForm}>
-                <Field
-                  name="name"
-                  placeholder="Name"
-                  component={this.renderTextInput}
-                />
+              <View style={styles.resetContainer}>
                 <Field
                   name="email"
-                  placeholder="Email"
-                  component={this.renderTextInput}
-                />
-                <Field
-                  name="password"
-                  placeholder="Password"
+                  placeholder="Enter your email"
                   secureTextEntry={true}
                   component={this.renderTextInput}
                 />
-                <Field
-                  name="cpassword"
-                  placeholder="Confirm password"
-                  secureTextEntry={true}
-                  component={this.renderTextInput}
-                />
-                <TouchableOpacity
-                  style={styles.buttonContainer}
-                  onPress={handleSubmit(this.onSubmit)}>
+                <TouchableOpacity style={styles.buttonContainer}>
                   <Text style={styles.buttonText}>Submit</Text>
                 </TouchableOpacity>
-                <View style={styles.loginTextContainer}>
-                  <Text style={styles.loginText}>Already have an account?</Text>
-                  <TouchableOpacity onPress={this.login}>
-                    <Text style={styles.loginLink}>Login</Text>
-                  </TouchableOpacity>
-                </View>
               </View>
             </KeyboardAvoidingView>
           </View>
@@ -181,24 +122,6 @@ class signup extends Component {
   }
 }
 
-const validate = values => {
-  const errors = {};
-  if (!values.name) {
-    errors.name = 'Name is required';
-  }
-  if (!values.email) {
-    errors.email = 'Email is required';
-  }
-  if (!values.password) {
-    errors.password = 'Name is required';
-  }
-  if(values.password !== values.cpassword){
-    errors.cpassword = 'Passwords do not match';
-  }
-  return errors;
-};
-
 export default reduxForm({
-  form: 'signup',
-  validate,
-})(signup);
+  form: 'resetPassword',
+})(restPassword);

@@ -8,14 +8,20 @@
 
 import React from 'react';
 import {StatusBar} from 'react-native';
+import store from './src/config/store';
+import {Provider} from 'react-redux';
+import Main from './src/Main';
 
 const App: () => React$Node = () => {
   return (
     <>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="rgba(255, 255, 255, 0.5)"
-      />
+      <Provider store={store}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="rgba(255, 255, 255, 0.5)"
+        />
+        <Main />
+      </Provider>
     </>
   );
 };

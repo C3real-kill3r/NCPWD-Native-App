@@ -9,19 +9,50 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
-  TextInput,
   TouchableOpacity,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
+import {Field, reduxForm} from 'redux-form';
+import InputText from '../../InputText';
 
-export default class signup extends Component {
+class signup extends Component {
   login() {
-    console.log("it working")
     Actions.pop();
   }
 
+  renderTextInput = field => {
+    const {
+      meta: {touched, error},
+      label,
+      secureTextEntry,
+      maxLength,
+      keyboardType,
+      placeholder,
+      input: {onChange, ...restInput},
+    } = field;
+    return (
+      <View>
+        <InputText
+          onChangeText={onChange}
+          maxLength={maxLength}
+          placeholder={placeholder}
+          keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
+          label={label}
+          {...restInput}
+        />
+        {touched && error && <Text style={styles.errorText}>{error}</Text>}
+      </View>
+    );
+  };
+
+  onSubmit = values => {
+    console.log(values);
+  };
+
   render() {
+    const {handleSubmit} = this.props;
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar
@@ -41,42 +72,31 @@ export default class signup extends Component {
                 <Text style={styles.title}> Signup Information</Text>
               </View>
               <View style={styles.signupForm}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Username"
-                  returnKeyType="next"
-                  onSubmitEditing={() => this.refs.name.focus()}
-                  placeholderTextColor="rgba(12, 16, 38, 0.8)"
-                  autoCorrect={false}
+                <Field
+                  name="name"
+                  placeholder="Name"
+                  component={this.renderTextInput}
                 />
-                <TextInput
-                  style={styles.input}
+                <Field
+                  name="email"
                   placeholder="Email"
-                  keyboardType="email-address"
-                  returnKeyType="next"
-                  onSubmitEditing={() => this.refs.password.focus()}
-                  ref={'name'}
-                  placeholderTextColor="rgba(12, 16, 38, 0.8)"
-                  autoCorrect={false}
+                  component={this.renderTextInput}
                 />
-                <TextInput
-                  style={styles.input}
+                <Field
+                  name="password"
                   placeholder="Password"
                   secureTextEntry={true}
-                  onSubmitEditing={() => this.refs.cpassword.focus()}
-                  ref={'password'}
-                  placeholderTextColor="rgba(12, 16, 38, 0.8)"
-                  autoCorrect={false}
+                  component={this.renderTextInput}
                 />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Confirm Password"
+                <Field
+                  name="cpassword"
+                  placeholder="Confirm password"
                   secureTextEntry={true}
-                  ref={'cpassword'}
-                  placeholderTextColor="rgba(12, 16, 38, 0.8)"
-                  autoCorrect={false}
+                  component={this.renderTextInput}
                 />
-                <TouchableOpacity style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.buttonContainer}
+                  onPress={handleSubmit(this.onSubmit)}>
                   <Text style={styles.buttonText}>Submit</Text>
                 </TouchableOpacity>
                 <View style={styles.loginTextContainer}>
@@ -115,17 +135,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
     paddingTop: 10,
-    paddingBottom: 10,
-  },
-  input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    height: 40,
-    marginBottom: 20,
-    color: '#000000',
-    paddingHorizontal: 10,
-    fontFamily: 'sans-serif-thin',
-    fontWeight: '600',
-    borderRadius: 2,
+    paddingBottom: 20,
   },
   signupForm: {
     paddingHorizontal: 30,
@@ -162,3 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default reduxForm({
+  form: 'signup',
+})(signup);

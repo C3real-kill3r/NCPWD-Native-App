@@ -7,30 +7,54 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import {Field, reduxForm} from 'redux-form';
 
-export default class loginForm extends Component {
+import InputText from '../../InputText';
+
+class loginForm extends Component {
   signup() {
     Actions.signup();
   }
+
+  renderTextInput = field => {
+    const {
+      meta: {touched, error},
+      label,
+      secureTextEntry,
+      maxLength,
+      keyboardType,
+      placeholder,
+      input: {onChange, ...restInput},
+    } = field;
+    return (
+      <View>
+        <InputText
+          onChangeText={onChange}
+          maxLength={maxLength}
+          placeholder={placeholder}
+          keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
+          label={label}
+          {...restInput}
+        />
+        {touched && error && <Text style={styles.errorText}>{error}</Text>}
+      </View>
+    );
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          placeholder="Email or username"
-          keyboardType="email-address"
-          returnKeyType="next"
-          onSubmitEditing={() => this.refs.password.focus()}
-          placeholderTextColor="rgba(12, 16, 38, 0.8)"
-          autoCorrect={false}
+        <Field
+          name="email"
+          placeholder="Email"
+          component={this.renderTextInput}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
+        <Field
+          name="password"
+          placeholder="password"
           secureTextEntry={true}
-          ref={'password'}
-          placeholderTextColor="rgba(12, 16, 38, 0.8)"
-          autoCorrect={false}
+          component={this.renderTextInput}
         />
         <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
         <TouchableOpacity style={styles.buttonContainer}>
@@ -52,16 +76,6 @@ export default class loginForm extends Component {
 const styles = StyleSheet.create({
   container: {
     padding: 30,
-  },
-  input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    height: 40,
-    marginBottom: 20,
-    color: '#000000',
-    paddingHorizontal: 10,
-    fontFamily: 'sans-serif-thin',
-    fontWeight: '600',
-    borderRadius: 2,
   },
   buttonContainer: {
     backgroundColor: '#44bd32',
@@ -97,3 +111,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
 });
+
+export default reduxForm({
+  form: 'login',
+})(loginForm);

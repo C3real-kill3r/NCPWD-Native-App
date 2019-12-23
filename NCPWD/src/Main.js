@@ -1,8 +1,9 @@
 import Splash from './components/pages/SplashScreen/splashScreen';
 import React, {Component} from 'react';
-import Route from './components/Route';
+import Routes from './components/Routes';
+import {connect} from 'react-redux';
 
-export default class Main extends Component {
+class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {currentScreen: 'Splash'};
@@ -12,7 +13,12 @@ export default class Main extends Component {
   }
   render() {
     const {currentScreen} = this.state;
-    let mainScreen = currentScreen === 'Splash' ? <Splash /> : <Route />;
+    let mainScreen = currentScreen === 'Splash' ? <Splash /> : <Routes />;
     return mainScreen;
   }
 }
+
+export default connect(
+  null,
+  null,
+)(Main);

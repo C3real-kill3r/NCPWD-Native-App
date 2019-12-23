@@ -32,9 +32,7 @@ export default class login extends Component {
                 />
                 <Text style={styles.title}> Account Information</Text>
               </View>
-              <View style={styles.loginForm}>
-                <LoginForm />
-              </View>
+              <LoginForm />
             </KeyboardAvoidingView>
           </View>
         </TouchableWithoutFeedback>
@@ -45,13 +43,12 @@ export default class login extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: 'rgba(12, 16, 38, 0.8)',
+    justifyContent: 'center',
   },
   logoContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    flexGrow: 1,
   },
   logo: {
     height: 160,
@@ -59,7 +56,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'sans-serif-thin',
-    fontWeight: '700',
+    fontWeight: '600',
     fontSize: 20,
     textAlign: 'center',
     color: '#ffffff',

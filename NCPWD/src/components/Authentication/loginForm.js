@@ -6,8 +6,12 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import {Actions} from 'react-native-router-flux';
 
 export default class loginForm extends Component {
+  signup() {
+    Actions.signup();
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -33,7 +37,12 @@ export default class loginForm extends Component {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <View style={styles.textContainer}>
-        <Text style={styles.signupText}>New here? Sign Up instead</Text>
+          <Text style={styles.signupText}>New here?</Text>
+          <TouchableOpacity>
+            <Text style={styles.signupLink} onPress={this.signup}>
+              Sign Up
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -70,11 +79,21 @@ const styles = StyleSheet.create({
   signupText: {
     color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
-    paddingVertical: 15,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   forgotPasswordText: {
     color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'right',
+  },
+  textContainer: {
+    paddingVertical: 15,
+    alignContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  signupLink: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    textAlign: 'center',
+    paddingHorizontal: 5,
   },
 });

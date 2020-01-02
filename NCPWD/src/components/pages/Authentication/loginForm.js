@@ -8,7 +8,10 @@ import {
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {Field, reduxForm} from 'redux-form';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
 
+import {loginUser} from '../../../actions/auth.action';
 import InputText from '../../InputText';
 
 const styles = StyleSheet.create({
@@ -92,8 +95,12 @@ class loginForm extends Component {
     );
   };
 
+  loginUsr = values => {
+    this.props.dispatch(loginUser(values));
+  };
+
   onSubmit = values =>{
-    console.log(values);
+    this.loginUsr(values);
   };
 
   render() {
@@ -103,6 +110,7 @@ class loginForm extends Component {
         <Field
           name="email"
           placeholder="Email"
+          keyboardType="email-address"
           component={this.renderTextInput}
         />
         <Field
@@ -142,7 +150,17 @@ const validate = values => {
   return errors;
 };
 
-export default reduxForm({
-  form: 'login',
-  validate,
-})(loginForm);
+mapDispatchToProps = (dispatch) => ({
+  dispatch,
+});
+
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps,
+  ),
+  reduxForm({
+    form: 'login',
+    validate,
+  }),
+)(loginForm);

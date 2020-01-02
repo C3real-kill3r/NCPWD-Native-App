@@ -8,7 +8,7 @@ class Main extends Component {
     super(props);
     this.state = {currentScreen: 'Splash'};
     setTimeout(() => {
-      this.setState({currentScreen: 'Login'});
+      this.setState({currentScreen: 'Routes'});
     }, 3000);
   }
   render() {

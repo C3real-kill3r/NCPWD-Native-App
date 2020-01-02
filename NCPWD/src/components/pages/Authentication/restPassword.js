@@ -107,7 +107,7 @@ class restPassword extends Component {
                 <Field
                   name="email"
                   placeholder="Enter your email"
-                  secureTextEntry={true}
+                  keyboardType="email-address"
                   component={this.renderTextInput}
                 />
                 <TouchableOpacity style={styles.buttonContainer}>

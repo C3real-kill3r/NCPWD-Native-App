@@ -14,9 +14,11 @@ import {
 
 import {Actions} from 'react-native-router-flux';
 import {Field, reduxForm} from 'redux-form';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+
+import {createNewUser} from '../../../actions/auth.action';
 import InputText from '../../InputText';
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -81,6 +83,17 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     paddingBottom: 8,
   },
+  nameContainer: {
+    flexDirection: 'row',
+    flexGrow: 1,
+  },
+  firstName: {
+    width: 145,
+  },
+  lastName: {
+    width: 145,
+    marginLeft: 10,
+  },
 });
 
 class signup extends Component {
@@ -114,8 +127,12 @@ class signup extends Component {
     );
   };
 
+  createUser = values => {
+    this.props.dispatch(createNewUser(values));
+  };
+
   onSubmit = values => {
-    console.log(values);
+    this.createUser(values);
   };
 
   render() {
@@ -139,14 +156,31 @@ class signup extends Component {
                 <Text style={styles.title}> Signup Information</Text>
               </View>
               <View style={styles.signupForm}>
+                <View style={styles.nameContainer}>
+                  <View style={styles.firstName}>
+                    <Field
+                      name="firstName"
+                      placeholder="First Name"
+                      component={this.renderTextInput}
+                    />
+                  </View>
+                  <View style={styles.lastName}>
+                    <Field
+                      name="lastName"
+                      placeholder="Last Name"
+                      component={this.renderTextInput}
+                    />
+                  </View>
+                </View>
                 <Field
-                  name="name"
-                  placeholder="Name"
+                  name="username"
+                  placeholder="Username"
                   component={this.renderTextInput}
                 />
                 <Field
                   name="email"
                   placeholder="Email"
+                  keyboardType="email-address"
                   component={this.renderTextInput}
                 />
                 <Field
@@ -183,8 +217,14 @@ class signup extends Component {
 
 const validate = values => {
   const errors = {};
-  if (!values.name) {
-    errors.name = 'Name is required';
+  if (!values.firstName) {
+    errors.firstName = 'First name is required';
+  }
+  if (!values.lastName) {
+    errors.lastName = 'Last name is required';
+  }
+  if (!values.username) {
+    errors.username = 'Username is required';
   }
   if (!values.email) {
     errors.email = 'Email is required';
@@ -192,13 +232,23 @@ const validate = values => {
   if (!values.password) {
     errors.password = 'Name is required';
   }
-  if(values.password !== values.cpassword){
+  if (values.password !== values.cpassword) {
     errors.cpassword = 'Passwords do not match';
   }
   return errors;
 };
 
-export default reduxForm({
-  form: 'signup',
-  validate,
-})(signup);
+mapDispatchToProps = (dispatch) => ({
+  dispatch,
+});
+
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps,
+  ),
+  reduxForm({
+    form: 'signup',
+    validate,
+  }),
+)(signup);

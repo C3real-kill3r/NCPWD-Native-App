@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Router, Stack, Scene} from 'react-native-router-flux';
-import login from '../pages/Authentication/login';
-import signup from '../pages/Authentication/signup';
-import restPassword from '../pages/Authentication/restPassword';
+import login from '../pages/Login/login';
+import signup from '../pages/Signup/signup';
+import restPassword from '../pages/ResetPassword/restPassword';
 
 export default class Routes extends Component {
   render() {

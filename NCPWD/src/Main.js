@@ -1,6 +1,7 @@
 import Splash from './pages/SplashScreen/splashScreen';
 import React, {Component} from 'react';
 import Routes from './components/Routes';
+import Profile from './pages/Profile/profile'
 import {connect} from 'react-redux';
 
 class Main extends Component {

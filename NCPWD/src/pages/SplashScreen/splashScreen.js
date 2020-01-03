@@ -11,7 +11,7 @@ export default class splashScreen extends Component {
         />
         <View style={styles.logoContainer}>
           <Image
-            source={require('../../../images/logo2.png')}
+            source={require('../../images/logo2.png')}
             style={styles.logo}
           />
           <Text style={styles.title}> It doesn't define who you are </Text>

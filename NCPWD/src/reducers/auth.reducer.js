@@ -19,13 +19,13 @@ const createUser = (state = initialState, action) => {
     case 'CREAT_USER_SUCCESS':
       return {
         isLoading: false,
-        isError: false,
         isSuccess: true,
-        errors: null,
+        isLoggedIn: true,
       };
 
     case 'CREAT_USER_FAIL':
       return {
+        isLoading: false,
         isError: true,
         errors: action.payload,
       };
@@ -35,6 +35,30 @@ const createUser = (state = initialState, action) => {
   }
 };
 
+const loginUser = (state = initialState, action) => {
+  switch (action.type) {
+    case 'LOGIN_USER_LOADING':
+      return {
+        isLoading: true,
+      };
+    case 'LOGIN_USER_SUCCESS':
+      return {
+        isLoading: false,
+        isLoggedIn: true,
+        isSuccess: true,
+      };
+    case 'LOGIN_USER_FAIL':
+      return {
+        isLoading: false,
+        isError: true,
+        errors: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   createUser,
+  loginUser,
 });

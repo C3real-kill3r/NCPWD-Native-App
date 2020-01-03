@@ -17,8 +17,9 @@ import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 
-import {createNewUser} from '../../../actions/auth.action';
-import InputText from '../../InputText';
+import {createNewUser} from '../../actions/auth.action';
+import InputText from '../../components/InputText';
+import Loader from '../../components/Loader';
 
 const styles = StyleSheet.create({
   container: {
@@ -86,13 +87,16 @@ const styles = StyleSheet.create({
   nameContainer: {
     flexDirection: 'row',
     flexGrow: 1,
+    width: '100%',
+  },
+  gap: {
+    width: '6%',
   },
   firstName: {
-    width: 145,
+    width: '47%',
   },
   lastName: {
-    width: 145,
-    marginLeft: 10,
+    width: '47%',
   },
 });
 
@@ -136,7 +140,7 @@ class signup extends Component {
   };
 
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, createUser} = this.props;
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar
@@ -147,10 +151,11 @@ class signup extends Component {
           style={styles.container}
           onPress={Keyboard.dismiss}>
           <View style={styles.container}>
+            {createUser.isLoading && <Loader />}
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
               <View style={styles.logoContainer}>
                 <Image
-                  source={require('../../../images/logo2.png')}
+                  source={require('../../images/logo2.png')}
                   style={styles.logo}
                 />
                 <Text style={styles.title}> Signup Information</Text>
@@ -164,6 +169,7 @@ class signup extends Component {
                       component={this.renderTextInput}
                     />
                   </View>
+                  <View style={styles.gap} />
                   <View style={styles.lastName}>
                     <Field
                       name="lastName"
@@ -238,13 +244,17 @@ const validate = values => {
   return errors;
 };
 
-mapDispatchToProps = (dispatch) => ({
+mapStateToProps = (state) => ({
+  createUser: state.authReducer.createUser
+})
+
+mapDispatchToProps = dispatch => ({
   dispatch,
 });
 
 export default compose(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   ),
   reduxForm({

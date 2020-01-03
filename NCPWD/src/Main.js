@@ -1,4 +1,4 @@
-import Splash from './components/pages/SplashScreen/splashScreen';
+import Splash from './pages/SplashScreen/splashScreen';
 import React, {Component} from 'react';
 import Routes from './components/Routes';
 import {connect} from 'react-redux';

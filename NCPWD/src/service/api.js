@@ -57,6 +57,12 @@ export const fetchApi = async (
     if (response.status === statusCode) {
       result.success = true;
 
+      // if (response.headers.get('Authorization')) {
+      //   result.token = response.headers.get('Authorization');
+      // }
+
+      // result.token = result.responseBody.token;
+
       let responseBody;
       const responseText = await response.text();
 

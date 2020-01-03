@@ -11,8 +11,7 @@ import {
   Keyboard,
   TouchableOpacity,
 } from 'react-native';
-import InputText from '../../InputText';
-import {Actions} from 'react-native-router-flux';
+import InputText from '../../components/InputText';
 import {Field, reduxForm} from 'redux-form';
 
 const styles = StyleSheet.create({
@@ -96,7 +95,7 @@ class restPassword extends Component {
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
               <View style={styles.logoContainer}>
                 <Image
-                  source={require('../../../images/logo2.png')}
+                  source={require('../../images/logo2.png')}
                   style={styles.logo}
                 />
                 <Text style={styles.title}>

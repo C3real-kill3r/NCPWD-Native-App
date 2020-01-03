@@ -1,18 +1,12 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  StyleSheet,
-  View,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 
-import {loginUser} from '../../../actions/auth.action';
-import InputText from '../../InputText';
+import {loginUser} from '../../actions/auth.action';
+import InputText from '../../components/InputText';
 
 const styles = StyleSheet.create({
   container: {
@@ -99,7 +93,7 @@ class loginForm extends Component {
     this.props.dispatch(loginUser(values));
   };
 
-  onSubmit = values =>{
+  onSubmit = values => {
     this.loginUsr(values);
   };
 
@@ -122,8 +116,9 @@ class loginForm extends Component {
         <TouchableOpacity onPress={this.restPass}>
           <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer}
-        onPress={handleSubmit(this.onSubmit)}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={handleSubmit(this.onSubmit)}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <View style={styles.textContainer}>
@@ -150,7 +145,7 @@ const validate = values => {
   return errors;
 };
 
-mapDispatchToProps = (dispatch) => ({
+mapDispatchToProps = dispatch => ({
   dispatch,
 });
 

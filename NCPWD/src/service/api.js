@@ -47,7 +47,7 @@ export const fetchApi = async (
       responseBody: null,
     };
     if (token) {
-      headers['x-auth'] = token;
+      headers['Authorization'] = token;
     }
 
     const response = await api(url, method, body, headers);
@@ -57,20 +57,18 @@ export const fetchApi = async (
     if (response.status === statusCode) {
       result.success = true;
 
-      if (response.headers.get('x-auth')) {
-        result.token = response.headers.get('x-auth');
-      }
-
       let responseBody;
       const responseText = await response.text();
 
       try {
         responseBody = JSON.parse(responseText);
+        result.token = responseBody.token;
       } catch (e) {
         responseBody = responseText;
       }
 
       result.responseBody = responseBody;
+      console.log(result);
       return result;
     }
 
